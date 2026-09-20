@@ -12,12 +12,13 @@ const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./auth/auth.module");
 const producto_module_1 = require("./producto/producto.module");
 const alerta_module_1 = require("./alerta/alerta.module");
+const comando_voz_module_1 = require("./comando-voz/comando-voz.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule, producto_module_1.ProductoModule, alerta_module_1.AlertaModule],
+        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule, producto_module_1.ProductoModule, alerta_module_1.AlertaModule, comando_voz_module_1.ComandoVozModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

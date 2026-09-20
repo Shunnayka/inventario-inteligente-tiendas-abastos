@@ -39,6 +39,12 @@ let PrismaProductoRepository = class PrismaProductoRepository {
         const row = await this.prisma.producto.findUnique({ where: { codigoBarras: codigo } });
         return row ? aDominio(row) : null;
     }
+    async buscarPorNombreParcial(nombre) {
+        const rows = await this.prisma.producto.findMany({
+            where: { nombre: { contains: nombre, mode: 'insensitive' } },
+        });
+        return rows.map(aDominio);
+    }
     async crear(datos) {
         const row = await this.prisma.producto.create({ data: datos });
         return aDominio(row);

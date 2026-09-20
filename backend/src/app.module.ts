@@ -3,8 +3,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductoModule } from './producto/producto.module';
 import { AlertaModule } from './alerta/alerta.module';
+import { ComandoVozModule } from './comando-voz/comando-voz.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, ProductoModule, AlertaModule],
+  imports: [PrismaModule, AuthModule, ProductoModule, AlertaModule, ComandoVozModule],
 })
 export class AppModule {}

@@ -69,8 +69,12 @@ export default function App() {
           <InventarioModule productos={productos} cargando={cargandoProductos} onCrear={crearProducto} />
         )}
         {pantalla === 'voz' && (
-          <ComandosVozModule procesando={procesando} ultimoResultado={ultimoResultado} onEjecutar={ejecutar} />
-        )}
+  <ComandosVozModule
+    procesando={procesando}
+    ultimoResultado={ultimoResultado}
+    onEjecutar={(transcripcion) => ejecutar(transcripcion, usuario?.idUsuario ?? 2)}
+  />
+)}
         {pantalla === 'alertas' && <AlertasPanel productosCriticos={productosCriticos} />}
       </main>
     </div>

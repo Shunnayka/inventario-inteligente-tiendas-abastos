@@ -14,6 +14,7 @@ export interface ProductoRepositoryPort {
   listar(): Promise<ProductoDominio[]>;
   buscarPorId(idProducto: number): Promise<ProductoDominio | null>;
   buscarPorCodigoBarras(codigo: string): Promise<ProductoDominio | null>;
+  buscarPorNombreParcial(nombre: string): Promise<ProductoDominio[]>;
   crear(datos: {
     idCategoria: number;
     codigoBarras: string;

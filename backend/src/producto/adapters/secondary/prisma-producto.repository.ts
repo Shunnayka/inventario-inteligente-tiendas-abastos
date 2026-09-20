@@ -33,6 +33,13 @@ export class PrismaProductoRepository implements ProductoRepositoryPort {
     return row ? aDominio(row) : null;
   }
 
+  async buscarPorNombreParcial(nombre: string): Promise<ProductoDominio[]> {
+    const rows = await this.prisma.producto.findMany({
+      where: { nombre: { contains: nombre, mode: 'insensitive' } },
+    });
+    return rows.map(aDominio);
+  }
+
   async crear(datos: {
     idCategoria: number;
     codigoBarras: string;
