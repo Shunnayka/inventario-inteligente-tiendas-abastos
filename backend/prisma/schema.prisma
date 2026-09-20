@@ -1,0 +1,117 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Rol {
+  idRol       Int       @id @default(autoincrement()) @map("id_rol")
+  nombre      String    @unique @db.VarChar(50)
+  descripcion String?   @db.VarChar(200)
+  usuarios    Usuario[]
+
+  @@map("sgb_rol")
+}
+
+model Usuario {
+  idUsuario      Int       @id @default(autoincrement()) @map("id_usuario")
+  idRol          Int       @map("id_rol")
+  nombre         String    @db.VarChar(120)
+  correo         String    @unique @db.VarChar(150)
+  contrasenaHash String    @map("contrasena_hash") @db.VarChar(255)
+  estado         Boolean   @default(true)
+  fechaCreacion  DateTime  @default(now()) @map("fecha_creacion")
+
+  rol            Rol       @relation(fields: [idRol], references: [idRol])
+  configuracion  ConfiguracionAccesibilidad?
+  movimientos    MovimientoInventario[]
+  comandosVoz    ComandoVoz[]
+
+  @@map("sgb_usuario")
+}
+
+model ConfiguracionAccesibilidad {
+  idConfiguracion Int     @id @default(autoincrement()) @map("id_configuracion")
+  idUsuario       Int     @unique @map("id_usuario")
+  altoContraste   Boolean @default(false) @map("alto_contraste")
+  tamanioFuente   Int     @default(16) @map("tamanio_fuente")
+  lecturaPantalla Boolean @default(false) @map("lectura_pantalla")
+
+  usuario         Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+
+  @@map("sgb_configuracion_accesibilidad")
+}
+
+model Categoria {
+  idCategoria Int        @id @default(autoincrement()) @map("id_categoria")
+  nombre      String     @unique @db.VarChar(80)
+  productos   Producto[]
+
+  @@map("sgb_categoria")
+}
+
+model Producto {
+  idProducto    Int       @id @default(autoincrement()) @map("id_producto")
+  idCategoria   Int       @map("id_categoria")
+  codigoBarras  String    @unique @map("codigo_barras") @db.VarChar(30)
+  nombre        String    @db.VarChar(150)
+  precioVenta   Decimal   @map("precio_venta") @db.Decimal(10, 2)
+  stockActual   Int       @default(0) @map("stock_actual")
+  stockMinimo   Int       @default(0) @map("stock_minimo")
+  fechaRegistro DateTime  @default(now()) @map("fecha_registro")
+
+  categoria     Categoria @relation(fields: [idCategoria], references: [idCategoria])
+  movimientos   MovimientoInventario[]
+  comandosVoz   ComandoVoz[]
+  alertas       AlertaPrediccion[]
+
+  @@map("sgb_producto")
+}
+
+model MovimientoInventario {
+  idMovimiento Int      @id @default(autoincrement()) @map("id_movimiento")
+  idProducto   Int      @map("id_producto")
+  idUsuario    Int      @map("id_usuario")
+  tipo         String   @db.VarChar(20)
+  cantidad     Int
+  fechaHora    DateTime @default(now()) @map("fecha_hora")
+  origen       String   @db.VarChar(20)
+
+  producto     Producto @relation(fields: [idProducto], references: [idProducto])
+  usuario      Usuario  @relation(fields: [idUsuario], references: [idUsuario])
+
+  @@map("sgb_movimiento_inventario")
+}
+
+model ComandoVoz {
+  idComando     Int      @id @default(autoincrement()) @map("id_comando")
+  idUsuario     Int      @map("id_usuario")
+  idProducto    Int?     @map("id_producto")
+  transcripcion String   @db.VarChar(300)
+  accion        String   @db.VarChar(50)
+  fechaHora     DateTime @default(now()) @map("fecha_hora")
+  resultado     String   @db.VarChar(20)
+
+  usuario       Usuario   @relation(fields: [idUsuario], references: [idUsuario])
+  producto      Producto? @relation(fields: [idProducto], references: [idProducto])
+
+  @@map("sgb_comando_voz")
+}
+
+model AlertaPrediccion {
+  idAlerta               Int      @id @default(autoincrement()) @map("id_alerta")
+  idProducto              Int      @map("id_producto")
+  consumoPromedioDiario   Decimal  @map("consumo_promedio_diario") @db.Decimal(10, 2)
+  diasRestantes           Int      @map("dias_restantes")
+  nivelCriticidad         String   @map("nivel_criticidad") @db.VarChar(10)
+  fechaGeneracion         DateTime @default(now()) @map("fecha_generacion")
+  atendida                Boolean  @default(false)
+
+  producto                Producto @relation(fields: [idProducto], references: [idProducto])
+
+  @@map("sgb_alerta_prediccion")
+}

@@ -1,0 +1,417 @@
+/* ============================================
+   SGB Inventario — Estilos globales
+   ============================================ */
+
+:root {
+  --bg: #faf7f2;
+  --panel: #ffffff;
+  --ink: #2b2b25;
+  --muted: #7a7568;
+  --line: #e4ddce;
+  --accent: #3f6c51;
+  --accent-ink: #ffffff;
+  --warn-bg: #fbeccf;
+  --warn-ink: #7a4e0a;
+  --danger: #a3402c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1b17;
+    --panel: #26241f;
+    --ink: #f1ede3;
+    --muted: #a39d8c;
+    --line: #3a372e;
+    --accent: #7fb894;
+    --accent-ink: #12241a;
+    --warn-bg: #3a2f14;
+    --warn-ink: #f0c876;
+    --danger: #e08267;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 1.4rem;
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+
+/* ============================================
+   Layout principal
+   ============================================ */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-shell.solo-login {
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   Sidebar (barra lateral)
+   ============================================ */
+
+.sidebar {
+  width: 220px;
+  flex: none;
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.nav-item {
+  all: unset;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--bg);
+}
+
+.nav-item.activo {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.nav-item.salir {
+  margin-top: auto;
+  color: var(--danger);
+}
+
+/* ============================================
+   Contenido principal
+   ============================================ */
+
+main {
+  flex: 1;
+  padding: 32px 40px;
+  max-width: 900px;
+}
+
+.usuario-actual {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   Tarjetas
+   ============================================ */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.screen-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ============================================
+   Formularios
+   ============================================ */
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ============================================
+   Botones
+   ============================================ */
+
+button.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 7px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+
+button.primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+button.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 9px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+  font-family: inherit;
+  transition: background 0.15s ease;
+}
+
+button.ghost:hover {
+  background: var(--bg);
+}
+
+/* ============================================
+   Tablas
+   ============================================ */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 9px 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.low {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* ============================================
+   Badges / etiquetas
+   ============================================ */
+
+.badge,
+.badge-alerta {
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* ============================================
+   Métricas (dashboard)
+   ============================================ */
+
+.grid-metricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.metrica {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metrica-valor {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.metrica-etiqueta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.metrica.critico .metrica-valor {
+  color: var(--danger);
+}
+
+/* ============================================
+   Filas de formulario
+   ============================================ */
+
+.fila {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fila > div {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* ============================================
+   Textos auxiliares
+   ============================================ */
+
+.ayuda {
+  color: var(--muted);
+  margin-top: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ayuda code {
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+}
+
+.error-text {
+  color: var(--danger);
+  font-weight: 600;
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+.resultado-ok {
+  color: var(--accent);
+  font-weight: 600;
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+.mensaje {
+  color: var(--muted);
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   Items de alerta
+   ============================================ */
+
+.alerta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+.alerta-item:last-child {
+  border-bottom: none;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 12px;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand {
+    margin-bottom: 0;
+    margin-right: 16px;
+    white-space: nowrap;
+  }
+
+  .nav-item {
+    white-space: nowrap;
+  }
+
+  .app-shell {
+    flex-direction: column;
+  }
+
+  main {
+    padding: 20px;
+  }
+
+  .grid-metricas {
+    grid-template-columns: 1fr;
+  }
+}
+
+.link-registro { color: var(--accent); font-size: .85rem; text-align: center; cursor: pointer; margin: 10px 0 0; text-decoration: underline; }
