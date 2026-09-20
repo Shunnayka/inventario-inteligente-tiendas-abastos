@@ -1,0 +1,1 @@
+{"version":3,"file":"calcular-nivel-criticidad.js","sourceRoot":"","sources":["../../../src/alerta/domain/calcular-nivel-criticidad.ts"],"names":[],"mappings":";;AAAA,0DAOC;AAPD,SAAgB,uBAAuB,CACrC,WAAmB,EACnB,WAAmB;IAEnB,IAAI,WAAW,KAAK,CAAC;QAAE,OAAO,MAAM,CAAC;IACrC,IAAI,WAAW,IAAI,WAAW,GAAG,CAAC;QAAE,OAAO,OAAO,CAAC;IACnD,OAAO,MAAM,CAAC;AAChB,CAAC"}
