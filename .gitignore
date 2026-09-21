@@ -27,3 +27,5 @@ desktop/renderer/
 # ==== Logs ====
 *.log
 npm-debug.log*
+
+.claude/
