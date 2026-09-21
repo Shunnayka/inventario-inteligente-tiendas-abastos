@@ -1,5 +1,5 @@
 // components/AlertasPanel.tsx
-import type { Producto } from '../types';
+import type { Producto } from '@sgb/shared';
 
 interface Props {
   productosCriticos: Producto[];

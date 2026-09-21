@@ -1,0 +1,29 @@
+# ==== Dependencias (todo el monorepo) ====
+node_modules/
+
+# ==== Builds ====
+dist/
+dist-ssr/
+build/
+release/
+desktop/renderer/
+
+# ==== Variables de entorno ====
+.env
+.env.local
+.env.*.local
+
+# ==== Expo / React Native ====
+.expo/
+.expo-shared/
+*.tsbuildinfo
+
+# ==== Editor / SO ====
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# ==== Logs ====
+*.log
+npm-debug.log*

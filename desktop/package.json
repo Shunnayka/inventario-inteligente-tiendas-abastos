@@ -1,0 +1,52 @@
+{
+  "name": "desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SGB Inventario de escritorio (Electron)",
+  "main": "dist/main.js",
+  "scripts": {
+    "build:main": "tsc -p tsconfig.json",
+    "build:renderer": "node scripts/copy-renderer.mjs",
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build:main && npm run build:renderer",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:linux": "npm run build && electron-builder --linux"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.1",
+    "typescript": "~6.0.2",
+    "@types/node": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.sgb.inventario.desktop",
+    "productName": "SGB Inventario",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Office"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.business",
+      "extendInfo": {
+        "NSCameraUsageDescription": "SGB Inventario necesita la cámara para escanear códigos de barras de productos.",
+        "NSMicrophoneUsageDescription": "SGB Inventario necesita el micrófono para reconocer comandos de voz de inventario."
+      }
+    }
+  }
+}
