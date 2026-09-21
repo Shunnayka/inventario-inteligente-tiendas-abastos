@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "SGB Inventario",
+    "slug": "sgb-inventario-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "sgbinventario",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "SGB Inventario necesita la cámara para escanear códigos de barras de productos."
+        }
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "SGB Inventario necesita el micrófono para reconocer comandos de voz de inventario.",
+          "speechRecognitionPermission": "SGB Inventario necesita reconocimiento de voz para interpretar comandos de inventario."
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "SGB Inventario necesita la cámara para escanear códigos de barras de productos.",
+        "NSMicrophoneUsageDescription": "SGB Inventario necesita el micrófono para reconocer comandos de voz de inventario.",
+        "NSSpeechRecognitionUsageDescription": "SGB Inventario necesita reconocimiento de voz para interpretar comandos de inventario."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["CAMERA", "RECORD_AUDIO"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

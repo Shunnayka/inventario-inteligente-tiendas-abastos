@@ -1,15 +1,15 @@
 // components/InventarioModule.tsx
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
-import type { NuevoProducto, Producto } from '../types';
+import { BrowserMultiFormatReader } from '@zxing/browser';
+import type { IScannerControls } from '@zxing/browser';
+import type { NuevoProducto, Producto } from '@sgb/shared';
 
 interface Props {
   productos: Producto[];
   cargando: boolean;
   onCrear: (nuevo: NuevoProducto) => Promise<Producto>;
 }
-
-const codigosSimulados = ['7501234560004', '7501234560005', '7501234560006'];
 
 export function InventarioModule({ productos, cargando, onCrear }: Props) {
   const [codigoBarras, setCodigoBarras] = useState('');
@@ -18,13 +18,42 @@ export function InventarioModule({ productos, cargando, onCrear }: Props) {
   const [stockActual, setStockActual] = useState(10);
   const [stockMinimo, setStockMinimo] = useState(5);
   const [mensaje, setMensaje] = useState<string | null>(null);
+  const [escaneando, setEscaneando] = useState(false);
 
-  const simularEscaneo = () => {
-    const codigo = codigosSimulados[Math.floor(Math.random() * codigosSimulados.length)];
-    setCodigoBarras(codigo);
-    setNombre((prev) => prev || 'Producto escaneado');
-    setMensaje(`Código leído: ${codigo}`);
-  };
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const controlsRef = useRef<IScannerControls | null>(null);
+
+  // Escaneo real de cámara con @zxing/browser (funciona igual en el navegador
+  // normal y dentro de Electron, que es Chromium con getUserMedia).
+  useEffect(() => {
+    if (!escaneando || !videoRef.current) return;
+
+    let cancelado = false;
+    const lector = new BrowserMultiFormatReader();
+
+    lector
+      .decodeFromVideoDevice(undefined, videoRef.current, (resultado, _error, controls) => {
+        controlsRef.current = controls;
+        if (cancelado || !resultado) return;
+        const codigo = resultado.getText();
+        setCodigoBarras(codigo);
+        setNombre((prev) => prev || 'Producto escaneado');
+        setMensaje(`Código leído: ${codigo}`);
+        setEscaneando(false);
+      })
+      .catch((err: unknown) => {
+        if (cancelado) return;
+        const denegado = err instanceof Error && err.name === 'NotAllowedError';
+        setMensaje(denegado ? 'Permiso de cámara denegado.' : 'No se pudo acceder a la cámara.');
+        setEscaneando(false);
+      });
+
+    return () => {
+      cancelado = true;
+      controlsRef.current?.stop();
+      controlsRef.current = null;
+    };
+  }, [escaneando]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -37,8 +66,8 @@ export function InventarioModule({ productos, cargando, onCrear }: Props) {
       setMensaje(`Producto "${nombre}" registrado.`);
       setCodigoBarras('');
       setNombre('');
-    } catch (err: any) {
-      setMensaje(err.message);
+    } catch (err) {
+      setMensaje(err instanceof Error ? err.message : 'No se pudo registrar el producto.');
     }
   };
 
@@ -70,9 +99,20 @@ export function InventarioModule({ productos, cargando, onCrear }: Props) {
             <input type="number" value={stockMinimo} onChange={(e) => setStockMinimo(Number(e.target.value))} />
           </div>
         </div>
-        <button type="button" className="ghost" onClick={simularEscaneo}>
-          📷 Simular escaneo de cámara
-        </button>
+
+        {escaneando ? (
+          <div className="escaner">
+            <video ref={videoRef} className="escaner-video" muted playsInline />
+            <button type="button" className="ghost" onClick={() => setEscaneando(false)}>
+              Cancelar escaneo
+            </button>
+          </div>
+        ) : (
+          <button type="button" className="ghost" onClick={() => setEscaneando(true)}>
+            📷 Escanear código de barras
+          </button>
+        )}
+
         <button type="submit" className="primary">
           Registrar producto
         </button>

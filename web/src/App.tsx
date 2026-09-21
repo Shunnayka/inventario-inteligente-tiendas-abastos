@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from './hooks/useAuth';
-import { useProductos } from './hooks/useProductos';
-import { useComandoVoz } from './hooks/useComandoVoz';
-import { useAlertas } from './hooks/useAlertas';
+import { useAuth, useProductos, useComandoVoz, useAlertas } from '@sgb/shared';
 import { LoginScreen } from './components/LoginScreen';
 import { RegisterScreen } from './components/RegisterScreen';
 import { Sidebar } from './components/Sidebar';

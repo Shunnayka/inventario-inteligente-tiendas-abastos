@@ -2,14 +2,24 @@
 import axios from 'axios';
 import { tokenStore } from './tokenStore';
 
-const BASE_URL =
-  (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL) ||
-  'http://localhost:3000';
+// Cada plataforma resuelve su propia URL de API con su propio mecanismo de env vars
+// (Vite usa import.meta.env, Expo/RN usa process.env) y la inyecta acá al arrancar,
+// para que este archivo no dependa de sintaxis específica de un bundler.
+let baseURL = 'http://localhost:3000';
+
+export function setApiBaseUrl(url: string | undefined | null): void {
+  if (url) baseURL = url;
+}
 
 export const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 8000,
+});
+
+api.interceptors.request.use((config) => {
+  config.baseURL = baseURL;
+  return config;
 });
 
 api.interceptors.request.use((config) => {
